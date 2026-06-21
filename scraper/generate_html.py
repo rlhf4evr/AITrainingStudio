@@ -273,12 +273,16 @@ def generate_html(jobs: list[dict], last_updated: str, total_active: int) -> str
   </div>
 
   <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterJobs('all', this)">All Roles</button>
-    <button class="filter-btn" onclick="filterJobs('medical', this)">⚕️ Medical</button>
-    <button class="filter-btn" onclick="filterJobs('legal', this)">⚖️ Legal</button>
-    <button class="filter-btn" onclick="filterJobs('code', this)">💻 Engineering</button>
-    <button class="filter-btn" onclick="filterJobs('research', this)">🔬 Research</button>
-    <button class="filter-btn" onclick="filterJobs('rlhf', this)">🧠 RLHF</button>
+<button class="filter-btn active" onclick="filterJobs('all', this)">All Roles</button>
+<button class="filter-btn" onclick="filterJobs('medical', this)">⚕️ Medical</button>
+<button class="filter-btn" onclick="filterJobs('legal', this)">⚖️ Legal</button>
+<button class="filter-btn" onclick="filterJobs('code', this)">💻 Engineering</button>
+<button class="filter-btn" onclick="filterJobs('research', this)">🔬 Research</button>
+<button class="filter-btn" onclick="filterJobs('rlhf', this)">🧠 RLHF</button>
+<button class="filter-btn" onclick="filterJobs('finance', this)">📊 Finance</button>
+<button class="filter-btn" onclick="filterJobs('consulting', this)">🤝 Consulting</button>
+<button class="filter-btn" onclick="filterJobs('business', this)">💼 Business</button>
+<button class="filter-btn" onclick="filterJobs('accounting', this)">🧾 Accounting</button>
   </div>
 
   <div class="job-grid" id="job-grid">
