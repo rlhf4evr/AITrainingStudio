@@ -2,31 +2,31 @@
 *1 new draft(s) — review and schedule via Buffer or LinkedIn*
 
 ---
-## Draft 1: Building Code Plans Examiner · $80-$120/hr
-*Job ID: micro1-building-code-examiner*
+## Draft 1: Senior Software Engineer (TypeScript) · $30-$120/hr
+*Job ID: micro1-senior-software-engineer-typescript*
 
 ```
-Stop scrolling. If you're a software engineer or developer, read this.
+I found another one. This one pays $30-$120/hr.
 
-📋 Role: Building Code Plans Examiner
-💰 Rate: $80-$120/hr
+📋 Role: Senior Software Engineer (TypeScript)
+💰 Rate: $30-$120/hr
 🌐 Type: Remote · Flexible hours · No office
 🏷️ Platform: Vetted AI training network
 
 What the work involves:
-Apply your building code expertise to train next-generation AI systems. Review construction documents, architectural drawings, and permit applications. No prior AI experience required.
+Design, develop and deploy full-stack applications using TypeScript, Node.js and React. Lead code reviews, enforce best practices and mentor fellow engineers. No prior AI experience required.
 
 Who should apply:
-✓ Software engineer or developer
+✓ Professional with domain expertise
 ✓ Available 5–20 hrs/week
 ✓ Based in the US
 
 No AI experience needed. Your domain expertise is the qualification.
 
-→ Link to apply in comments. Takes under 5 minutes.
+→ Referral link in comments.
 
-Repost if you know someone this would suit 🔁
+Follow AI Training Studio for more — I post these as soon as they go live.
 
 — — —
-Referral link: https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share
+Referral link: https://jobs.micro1.ai/post/61f8d17a-315a-4406-b38a-f93b52f0e4db?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share
 ```

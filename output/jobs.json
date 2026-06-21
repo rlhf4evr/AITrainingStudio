@@ -1,23 +1,8 @@
 {
-  "last_updated": "2026-06-21T00:00:00+00:00",
+  "last_updated": "2026-06-21T23:00:48.847187+00:00",
   "total_active": 2,
   "min_hourly_rate": 100,
   "jobs": [
-    {
-      "id": "micro1-building-code-examiner",
-      "platform": "Micro1",
-      "title": "Building Code Plans Examiner",
-      "description": "Apply your building code expertise to train next-generation AI systems. Review construction documents, architectural drawings, and permit applications. No prior AI experience required.",
-      "rate_text": "$80-$120/hr",
-      "hourly_rate": 100,
-      "role_type": "Domain Expert",
-      "best_for": "Building code inspectors, permit reviewers, construction professionals",
-      "referral_url": "https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share",
-      "source_url": "https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6",
-      "added_at": "2026-06-21T00:00:00+00:00",
-      "active": true,
-      "manual": true
-    },
     {
       "id": "micro1-senior-software-engineer-typescript",
       "platform": "Micro1",
@@ -29,6 +14,21 @@
       "best_for": "Senior software engineers, full-stack developers, TypeScript specialists",
       "referral_url": "https://jobs.micro1.ai/post/61f8d17a-315a-4406-b38a-f93b52f0e4db?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share",
       "source_url": "https://jobs.micro1.ai/post/61f8d17a-315a-4406-b38a-f93b52f0e4db",
+      "added_at": "2026-06-21T00:00:00+00:00",
+      "active": true,
+      "manual": true
+    },
+    {
+      "id": "micro1-building-code-examiner",
+      "platform": "Micro1",
+      "title": "Building Code Plans Examiner",
+      "description": "Apply your building code expertise to train next-generation AI systems. Review construction documents, architectural drawings, and permit applications. No prior AI experience required.",
+      "rate_text": "$80-$120/hr",
+      "hourly_rate": 100,
+      "role_type": "Domain Expert",
+      "best_for": "Building code inspectors, permit reviewers, construction professionals",
+      "referral_url": "https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share",
+      "source_url": "https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6",
       "added_at": "2026-06-21T00:00:00+00:00",
       "active": true,
       "manual": true
