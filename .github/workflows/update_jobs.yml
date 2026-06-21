@@ -1,4 +1,4 @@
-name: 🤖 Auto-Update Job Board
+name: Auto-Update Job Board
 
 on:
   schedule:
@@ -15,35 +15,33 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - name: 📥 Checkout repo
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: 🐍 Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-  
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: pip install requests
 
-      - name: 🔍 Scrape job platforms
+      - name: Scrape job platforms
         env:
-          MERCOR_REFERRAL_URL: ${{ secrets.MERCOR_REFERRAL_URL }}
           MICRO1_REFERRAL_URL: ${{ secrets.MICRO1_REFERRAL_URL }}
-          TERAC_REFERRAL_URL:  ${{ secrets.TERAC_REFERRAL_URL }}
+          TERAC_REFERRAL_URL: ${{ secrets.TERAC_REFERRAL_URL }}
         run: python scraper/scrape_jobs.py
 
-      - name: 🎨 Generate job board HTML
+      - name: Generate job board HTML
         run: python scraper/generate_html.py
 
-      - name: ✍️  Draft LinkedIn posts for new roles
+      - name: Draft LinkedIn posts
         run: python scraper/draft_linkedin.py
 
-      - name: 📤 Commit and push updated files
+      - name: Commit and push updated files
         run: |
-          git config user.name  "AI Training Studio Bot"
+          git config user.name "AI Training Studio Bot"
           git config user.email "bot@aitraining.studio"
-          git add output/jobs.json output/jobs.html output/linkedin_drafts.md output/posted_ids.json
-          git diff --staged --quiet || git commit -m "🤖 Job board update — $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git add output/
+          git diff --staged --quiet || git commit -m "Job board update"
           git push
