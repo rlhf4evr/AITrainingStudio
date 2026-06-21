@@ -235,9 +235,10 @@ def merge_with_existing(new_jobs: list[dict]) -> list[dict]:
 
     new_ids = {j["id"] for j in new_jobs}
 
-    # Mark jobs not seen this run as inactive (but keep them for 7 days)
+  # Only deactivate scraped jobs (hex IDs), not manually-added jobs
     for job_id, job in existing.items():
-        if job_id not in new_ids and job.get("active"):
+        is_manual = "-" in job_id
+        if job_id not in new_ids and job.get("active") and not is_manual:
             job["active"] = False
 
     # Upsert new jobs
