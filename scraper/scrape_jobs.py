@@ -16,7 +16,6 @@ from typing import Optional
 
 MIN_HOURLY_RATE = 100  # Only include roles at or above this rate
 
-# Your personal referral links — replace with your actual referral URLs
 REFERRAL_LINKS = {
     "mercor":  os.getenv("MERCOR_REFERRAL_URL",  "https://work.mercor.com/refer/YOUR_CODE"),
     "micro1":  os.getenv("MICRO1_REFERRAL_URL",  "https://micro1.ai/referral/YOUR_CODE"),
@@ -34,10 +33,6 @@ OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "output", "jobs.json
 # ── HELPERS ────────────────────────────────────────────────────────────────────
 
 def extract_hourly_rate(text: str) -> Optional[float]:
-    """
-    Pull the highest hourly dollar figure from a string.
-    Handles: '$150/hr', '$100-$200/hour', '$120 per hour', '150 USD/hr'
-    """
     if not text:
         return None
     text = text.replace(",", "")
@@ -55,7 +50,6 @@ def extract_hourly_rate(text: str) -> Optional[float]:
 
 
 def make_id(platform: str, title: str, url: str) -> str:
-    """Stable deduplication ID based on content."""
     raw = f"{platform}:{title}:{url}"
     return hashlib.md5(raw.encode()).hexdigest()[:12]
 
@@ -64,7 +58,6 @@ def normalise_job(platform: str, title: str, description: str,
                   rate_text: str, hourly_rate: float, url: str,
                   role_type: str = "", best_for: str = "") -> dict:
     referral_url = REFERRAL_LINKS.get(platform.lower(), REFERRAL_LINKS["default"])
-    # For per-job referral links (Mercor supports appending job ID):
     if platform.lower() == "mercor" and url:
         job_slug = url.rstrip("/").split("/")[-1]
         referral_url = f"{REFERRAL_LINKS['mercor']}?job={job_slug}"
@@ -82,20 +75,16 @@ def normalise_job(platform: str, title: str, description: str,
         "source_url":   url,
         "added_at":     datetime.now(timezone.utc).isoformat(),
         "active":       True,
+        "manual":       False,
     }
 
 
 # ── SCRAPERS ───────────────────────────────────────────────────────────────────
 
 def scrape_mercor() -> list[dict]:
-    """
-    Mercor exposes a public jobs search API.
-    We filter server-side by salary where possible, then re-check locally.
-    """
     print("  → Fetching Mercor jobs...")
     jobs = []
     try:
-        # Mercor's undocumented but public search endpoint
         url = "https://api.work.mercor.com/v2/jobs/search"
         params = {
             "limit": 100,
@@ -111,7 +100,6 @@ def scrape_mercor() -> list[dict]:
             desc  = item.get("description", "") or item.get("shortDescription", "")
             pay   = item.get("payRate", "") or item.get("compensation", "") or ""
 
-            # Mercor sometimes stores rate as a number (USD/hr)
             hourly = item.get("hourlyRateUSD") or item.get("minHourlyRate")
             if hourly is None:
                 hourly = extract_hourly_rate(str(pay))
@@ -140,10 +128,6 @@ def scrape_mercor() -> list[dict]:
 
 
 def scrape_micro1() -> list[dict]:
-    """
-    Micro1 exposes job listings on their public jobs page.
-    We fetch their JSON feed and filter for high-pay roles.
-    """
     print("  → Fetching Micro1 jobs...")
     jobs = []
     try:
@@ -183,9 +167,6 @@ def scrape_micro1() -> list[dict]:
 
 
 def scrape_terac() -> list[dict]:
-    """
-    Terac job listings via their public API or jobs page.
-    """
     print("  → Fetching Terac jobs...")
     jobs = []
     try:
@@ -224,8 +205,8 @@ def scrape_terac() -> list[dict]:
 
 def merge_with_existing(new_jobs: list[dict]) -> list[dict]:
     """
-    Load existing jobs.json, mark stale ones as inactive,
-    and add new ones. Preserves manually-added jobs too.
+    Load existing jobs.json, preserve manual jobs, merge scraped jobs.
+    Manual jobs (manual=true) are NEVER deactivated by the scraper.
     """
     existing = {}
     if os.path.exists(OUTPUT_PATH):
@@ -235,16 +216,16 @@ def merge_with_existing(new_jobs: list[dict]) -> list[dict]:
 
     new_ids = {j["id"] for j in new_jobs}
 
-  # Never deactivate manually-added jobs
+    # Only deactivate scraped jobs — never touch manual ones
     for job_id, job in existing.items():
         if job.get("manual"):
             continue
         if job_id not in new_ids and job.get("active"):
             job["active"] = False
 
-    # Upsert new jobs
+    # Upsert new scraped jobs
     for job in new_jobs:
-        existing[job["id"]] = job  # overwrite with fresh data
+        existing[job["id"]] = job
 
     all_jobs = sorted(existing.values(), key=lambda j: j["hourly_rate"], reverse=True)
     return all_jobs
