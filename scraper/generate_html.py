@@ -61,7 +61,7 @@ def build_card(job: dict) -> str:
       {f'<p class="job-desc">{desc}</p>' if desc else ''}
       {best_for_html}
       <a class="apply-btn" href="{ref_url}" target="_blank" rel="noopener noreferrer">
-        Apply via Referral →
+        Apply →
       </a>
     </div>"""
 
