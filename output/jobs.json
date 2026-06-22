@@ -1,8 +1,25 @@
 {
-  "last_updated": "2026-06-22T01:33:23.638604+00:00",
+  "last_updated": "2026-06-22T01:36:19.806314+00:00",
   "total_active": 3,
   "min_hourly_rate": 100,
   "jobs": [
+    {
+      "id": "mercor-attorney-legal-expert-real-estate-energy",
+      "platform": "Mercor",
+      "title": "Attorney / Legal Expert (Real Estate / Energy) \u2014 AI Training Project",
+      "description": "Apply your real estate and energy law expertise to improve AI legal reasoning. Review and annotate leases, easements, conveyances, and interconnection agreements. No prior AI experience required.",
+      "rate_text": "$50-$150/hr",
+      "hourly_rate": 150,
+      "role_type": "Domain Expert",
+      "best_for": "Real estate attorneys, energy lawyers, legal professionals",
+      "emoji": "\u2696\ufe0f",
+      "category": "legal",
+      "referral_url": "https://t.mercor.com/Ylu8g",
+      "source_url": "https://work.mercor.com/jobs/list_AAABnt3KAL7_5tTFxaFNopGc/attorney-legal-expert-real-estate-energy-ai-training-project",
+      "added_at": "2026-06-21T00:00:00+00:00",
+      "active": true,
+      "manual": true
+    },
     {
       "id": "micro1-senior-software-engineer-typescript",
       "platform": "Micro1",
@@ -29,23 +46,6 @@
       "best_for": "Building code inspectors, permit reviewers, construction professionals",
       "referral_url": "https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share",
       "source_url": "https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6",
-      "added_at": "2026-06-21T00:00:00+00:00",
-      "active": true,
-      "manual": true
-    },
-    {
-      "id": "mercor-attorney-legal-expert-real-estate-energy",
-      "platform": "Mercor",
-      "title": "Attorney / Legal Expert (Real Estate / Energy) \u2014 AI Training Project",
-      "description": "Apply your real estate and energy law expertise to improve AI legal reasoning. Review and annotate leases, easements, conveyances, and interconnection agreements. No prior AI experience required.",
-      "rate_text": "$50-$150/hr",
-      "hourly_rate": 150,
-      "role_type": "Domain Expert",
-      "best_for": "Real estate attorneys, energy lawyers, legal professionals",
-      "emoji": "\u2696\ufe0f",
-      "category": "legal",
-      "referral_url": "https://t.mercor.com/Ylu8g",
-      "source_url": "https://work.mercor.com/jobs/list_AAABnt3KAL7_5tTFxaFNopGc/attorney-legal-expert-real-estate-energy-ai-training-project",
       "added_at": "2026-06-21T00:00:00+00:00",
       "active": true,
       "manual": true
