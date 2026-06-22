@@ -320,7 +320,7 @@ def main():
     with open(INPUT_PATH) as f:
         data = json.load(f)
 
-    jobs         = data.get("jobs", [])
+    jobs         = sorted(data.get("jobs", []), key=lambda j: j.get("hourly_rate", 0), reverse=True)
     last_updated = data.get("last_updated", datetime.now(timezone.utc).isoformat())
     total_active = data.get("total_active", sum(1 for j in jobs if j.get("active")))
 
