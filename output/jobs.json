@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-06-23T11:19:33+00:00",
-  "total_active": 38,
+  "last_updated": "2026-06-23T11:19:36+00:00",
+  "total_active": 37,
   "min_hourly_rate": 100,
   "jobs": [
     {
@@ -574,7 +574,7 @@
       "referral_url": "https://t.mercor.com/VaIwD",
       "source_url": "https://work.mercor.com/jobs/list_AAABnp6Q6HIxlwTQiCBNkobI/procurement-vendor-management-evaluator",
       "added_at": "2026-06-22T00:00:00+00:00",
-      "active": true,
+      "active": false,
       "manual": true
     },
     {
