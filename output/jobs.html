@@ -3,1337 +3,1155 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Training Studio — Open Roles</title>
+  <title>AI Training Studio - Open Roles</title>
   <style>
-    /* ── Reset & base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: transparent;
-      color: #1a1a1a;
-    }
-
-    /* ── Header bar ── */
-    .board-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 0 24px 0;
-      border-bottom: 1px solid #e5e5e5;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .board-title {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #666;
-    }
-    .board-meta {
-      font-size: 12px;
-      color: #999;
-    }
-    .board-count {
-      background: #1a1a1a;
-      color: #fff;
-      padding: 4px 12px;
-      border-radius: 100px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    /* ── Filter tabs ── */
-    .filter-bar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 28px;
-    }
-    .filter-btn {
-      background: #f3f3f3;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 100px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.15s;
-      font-family: inherit;
-      color: #444;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: #1a1a1a;
-      color: #fff;
-    }
-
-    /* ── Job cards ── */
-    .job-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .job-card {
-      background: #fff;
-      border: 1px solid #e8e8e8;
-      border-radius: 16px;
-      padding: 24px;
-      transition: box-shadow 0.2s, transform 0.15s;
-    }
-    .job-card:hover {
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-      transform: translateY(-2px);
-    }
-
-    .job-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-    .job-emoji {
-      font-size: 28px;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-    .job-meta {
-      flex: 1;
-      min-width: 0;
-    }
-    .job-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: #1a1a1a;
-      line-height: 1.3;
-      margin-bottom: 4px;
-    }
-    .job-platform {
-      font-size: 12px;
-      color: #888;
-      font-weight: 500;
-    }
-    .job-rate {
-      background: #f0faf0;
-      color: #1a7a3c;
-      font-weight: 800;
-      font-size: 15px;
-      padding: 6px 14px;
-      border-radius: 8px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .job-desc {
-      font-size: 14px;
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 12px;
-    }
-    .best-for {
-      font-size: 12px;
-      color: #888;
-      margin-bottom: 16px;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: transparent; color: #1a1a1a; }
+    .board-header { display: flex; justify-content: space-between; align-items: center; padding: 0 0 24px 0; border-bottom: 1px solid #e5e5e5; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .board-title { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #666; }
+    .board-meta { font-size: 12px; color: #999; }
+    .board-count { background: #1a1a1a; color: #fff; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+    .controls-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+    .search-box { flex: 1; min-width: 200px; padding: 9px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-family: inherit; outline: none; background: #fafafa; transition: border-color 0.15s; }
+    .search-box:focus { border-color: #1a1a1a; background: #fff; }
+    .sort-select { padding: 9px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; font-family: inherit; outline: none; background: #fafafa; cursor: pointer; color: #444; }
+    .results-count { font-size: 12px; color: #999; white-space: nowrap; }
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .filter-btn { background: #f3f3f3; border: none; padding: 7px 14px; border-radius: 100px; font-size: 13px; cursor: pointer; transition: all 0.15s; font-family: inherit; color: #444; }
+    .filter-btn:hover, .filter-btn.active { background: #1a1a1a; color: #fff; }
+    .job-grid { display: grid; gap: 16px; }
+    .job-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 16px; padding: 24px; transition: box-shadow 0.2s, transform 0.15s; }
+    .job-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .job-card.hidden { display: none; }
+    .job-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+    .job-emoji { font-size: 28px; line-height: 1; flex-shrink: 0; }
+    .job-meta { flex: 1; min-width: 0; }
+    .job-title { font-size: 17px; font-weight: 700; color: #1a1a1a; line-height: 1.3; margin-bottom: 4px; }
+    .job-platform { font-size: 12px; color: #888; font-weight: 500; }
+    .cat-badge { display: inline-block; margin-top: 5px; font-size: 11px; color: #666; background: #f3f3f3; padding: 2px 8px; border-radius: 100px; }
+    .job-rate { background: #f0faf0; color: #1a7a3c; font-weight: 800; font-size: 15px; padding: 6px 14px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; }
+    .job-desc { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 12px; }
+    .best-for { font-size: 12px; color: #888; margin-bottom: 16px; }
     .best-for::before { content: "✓ "; color: #1a7a3c; }
-
-    .apply-btn {
-      display: inline-block;
-      background: #1a1a1a;
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      transition: background 0.15s;
-    }
-    .apply-btn:hover {
-      background: #333;
-    }
-
-    /* ── Empty state ── */
-    .no-jobs {
-      text-align: center;
-      padding: 60px 20px;
-      background: #f9f9f9;
-      border-radius: 16px;
-      color: #666;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    /* ── Footer note ── */
-    .board-footer {
-      margin-top: 32px;
-      padding-top: 20px;
-      border-top: 1px solid #e5e5e5;
-      font-size: 12px;
-      color: #aaa;
-      text-align: center;
-      line-height: 1.6;
-    }
-
-    /* ── Mobile ── */
-    @media (max-width: 600px) {
-      .job-header { flex-wrap: wrap; }
-      .job-rate { order: -1; }
-      .board-header { flex-direction: column; align-items: flex-start; }
-    }
+    .apply-btn { display: inline-block; background: #1a1a1a; color: #fff; text-decoration: none; padding: 10px 22px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: background 0.15s; }
+    .apply-btn:hover { background: #333; }
+    .no-jobs { text-align: center; padding: 60px 20px; background: #f9f9f9; border-radius: 16px; color: #666; font-size: 15px; line-height: 1.6; }
+    .no-results { text-align: center; padding: 40px 20px; color: #999; font-size: 14px; display: none; }
+    .board-footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid #e5e5e5; font-size: 12px; color: #aaa; text-align: center; line-height: 1.6; }
+    @media (max-width: 600px) { .job-header { flex-wrap: wrap; } .job-rate { order: -1; } .board-header { flex-direction: column; align-items: flex-start; } .controls-bar { flex-direction: column; } .search-box, .sort-select { width: 100%; } }
   </style>
 </head>
 <body>
-
   <div class="board-header">
-    <div>
-      <div class="board-title">Current Openings</div>
-    </div>
+    <div><div class="board-title">Current Openings</div></div>
     <div style="display:flex; gap:12px; align-items:center;">
-      <span class="board-count">69 active roles</span>
-      <span class="board-meta">Updated 23 June 2026, 5:25 PM UTC</span>
+      <span class="board-count" id="active-count">69 active roles</span>
+      <span class="board-meta">Updated 23 June 2026, 5:42 PM UTC</span>
     </div>
   </div>
-
-  <div class="filter-bar">
-<button class="filter-btn active" onclick="filterJobs('all', this)">All Roles</button>
-<button class="filter-btn" onclick="filterJobs('medical', this)">⚕️ Medical</button>
-<button class="filter-btn" onclick="filterJobs('legal', this)">⚖️ Legal</button>
-<button class="filter-btn" onclick="filterJobs('code', this)">💻 Engineering</button>
-<button class="filter-btn" onclick="filterJobs('research', this)">🔬 Research</button>
-<button class="filter-btn" onclick="filterJobs('rlhf', this)">🧠 RLHF</button>
-<button class="filter-btn" onclick="filterJobs('finance', this)">📊 Finance</button>
-<button class="filter-btn" onclick="filterJobs('consulting', this)">🤝 Consulting</button>
-<button class="filter-btn" onclick="filterJobs('business', this)">💼 Business</button>
-<button class="filter-btn" onclick="filterJobs('accounting', this)">🧾 Accounting</button>
+  <div class="controls-bar">
+    <input type="text" class="search-box" id="search-box" placeholder="Search by title, profession, or keyword..." oninput="applyFilters()" />
+    <select class="sort-select" id="sort-select" onchange="applyFilters()">
+      <option value="rate-desc">Highest Pay First</option>
+      <option value="rate-asc">Lowest Pay First</option>
+      <option value="newest">Newest First</option>
+      <option value="oldest">Oldest First</option>
+      <option value="alpha-asc">A to Z</option>
+      <option value="alpha-desc">Z to A</option>
+      <option value="rate-150">$150+/hr only</option>
+      <option value="rate-250">$250+/hr only</option>
+    </select>
+    <span class="results-count" id="results-count"></span>
   </div>
-
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setCategory('all', this)">All Roles</button>
+    <button class="filter-btn" onclick="setCategory('medical', this)">⚕️ Medical</button>
+    <button class="filter-btn" onclick="setCategory('legal', this)">⚖️ Legal</button>
+    <button class="filter-btn" onclick="setCategory('code', this)">💻 Engineering</button>
+    <button class="filter-btn" onclick="setCategory('research', this)">🔬 Research</button>
+    <button class="filter-btn" onclick="setCategory('rlhf', this)">🧠 RLHF</button>
+    <button class="filter-btn" onclick="setCategory('finance', this)">📊 Finance</button>
+    <button class="filter-btn" onclick="setCategory('consulting', this)">🤝 Consulting</button>
+    <button class="filter-btn" onclick="setCategory('business', this)">💼 Business</button>
+    <button class="filter-btn" onclick="setCategory('accounting', this)">🧾 Accounting</button>
+  </div>
   <div class="job-grid" id="job-grid">
     
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="150" data-title="attorney / legal expert (real estate / energy) — ai training project" data-added="2026-06-21T00:00:00+00:00" data-search="attorney / legal expert (real estate / energy) — ai training project real estate attorneys, energy lawyers, legal professionals apply your real estate and energy law expertise to improve ai legal reasoning. review and annotate leases, easements, conveyances, and interconnection agreements. no prior ai exper...">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Attorney / Legal Expert (Real Estate / Energy) — AI Training Project</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$50-$150/hr</span>
       </div>
-      <p class="job-desc">Apply your real estate and energy law expertise to improve AI legal reasoning. Review and annotate leases, easements, conveyances, and interconnection agreements. No prior AI exper…</p>
+      <p class="job-desc">Apply your real estate and energy law expertise to improve AI legal reasoning. Review and annotate leases, easements, conveyances, and interconnection agreements. No prior AI exper...</p>
       <p class="best-for">Best for: Real estate attorneys, energy lawyers, legal professionals</p>
-      <a class="apply-btn" href="https://t.mercor.com/Ylu8g" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/Ylu8g" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="" data-rate="120" data-title="senior software engineer (typescript)" data-added="2026-06-21T00:00:00+00:00" data-search="senior software engineer (typescript) senior software engineers, full-stack developers, typescript specialists design, develop and deploy full-stack applications using typescript, node.js and react. lead code reviews, enforce best practices and mentor fellow engineers. no prior ai experienc...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Senior Software Engineer (TypeScript)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          
         </div>
         <span class="job-rate">$30-$120/hr</span>
       </div>
-      <p class="job-desc">Design, develop and deploy full-stack applications using TypeScript, Node.js and React. Lead code reviews, enforce best practices and mentor fellow engineers. No prior AI experienc…</p>
+      <p class="job-desc">Design, develop and deploy full-stack applications using TypeScript, Node.js and React. Lead code reviews, enforce best practices and mentor fellow engineers. No prior AI experienc...</p>
       <p class="best-for">Best for: Senior software engineers, full-stack developers, TypeScript specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/61f8d17a-315a-4406-b38a-f93b52f0e4db?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/61f8d17a-315a-4406-b38a-f93b52f0e4db?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="" data-rate="120" data-title="building code plans examiner" data-added="2026-06-21T00:00:00+00:00" data-search="building code plans examiner building code inspectors, permit reviewers, construction professionals apply your building code expertise to train next-generation ai systems. review construction documents, architectural drawings, and permit applications. no prior ai experience requi...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Building Code Plans Examiner</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          
         </div>
         <span class="job-rate">$80-$120/hr</span>
       </div>
-      <p class="job-desc">Apply your building code expertise to train next-generation AI systems. Review construction documents, architectural drawings, and permit applications. No prior AI experience requi…</p>
+      <p class="job-desc">Apply your building code expertise to train next-generation AI systems. Review construction documents, architectural drawings, and permit applications. No prior AI experience requi...</p>
       <p class="best-for">Best for: Building code inspectors, permit reviewers, construction professionals</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/1c9bc03a-e5c1-48f9-a4e4-dd7c1e37fab6?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="physics researchers (part-time)" data-added="2026-06-22T00:00:00+00:00" data-search="physics researchers (part-time) physics phds, postdocs, research scientists, university professors apply frontier physics research expertise to train next-generation ai systems for scientific reasoning. contribute across theoretical physics, quantum information, astrophysics, co...">
       <div class="job-header">
         <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Physics Researchers (Part-time)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply frontier physics research expertise to train next-generation AI systems for scientific reasoning. Contribute across theoretical physics, quantum information, astrophysics, co…</p>
+      <p class="job-desc">Apply frontier physics research expertise to train next-generation AI systems for scientific reasoning. Contribute across theoretical physics, quantum information, astrophysics, co...</p>
       <p class="best-for">Best for: Physics PhDs, postdocs, research scientists, university professors</p>
-      <a class="apply-btn" href="https://t.mercor.com/5RZKK" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/5RZKK" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="chemistry researchers (part-time)" data-added="2026-06-22T00:00:00+00:00" data-search="chemistry researchers (part-time) chemistry phds, postdocs, research scientists, university professors apply frontier chemistry research expertise to train ai systems for scientific reasoning. contribute across organic synthesis, catalysis, structural chemistry, chemical biology, an...">
       <div class="job-header">
         <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Chemistry Researchers (Part-time)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply frontier chemistry research expertise to train AI systems for scientific reasoning. Contribute across organic synthesis, catalysis, structural chemistry, chemical biology, an…</p>
+      <p class="job-desc">Apply frontier chemistry research expertise to train AI systems for scientific reasoning. Contribute across organic synthesis, catalysis, structural chemistry, chemical biology, an...</p>
       <p class="best-for">Best for: Chemistry PhDs, postdocs, research scientists, university professors</p>
-      <a class="apply-btn" href="https://t.mercor.com/HuHBy" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/HuHBy" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="biology & biophysics researchers (part-time)" data-added="2026-06-22T00:00:00+00:00" data-search="biology & biophysics researchers (part-time) biology phds, biophysicists, neuroscientists, immunologists, research scientists apply frontier biology research expertise to train ai systems for scientific reasoning. contribute across molecular biology, biophysics, structural biology, immunology, neuroscienc...">
       <div class="job-header">
         <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Biology & Biophysics Researchers (Part-time)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply frontier biology research expertise to train AI systems for scientific reasoning. Contribute across molecular biology, biophysics, structural biology, immunology, neuroscienc…</p>
+      <p class="job-desc">Apply frontier biology research expertise to train AI systems for scientific reasoning. Contribute across molecular biology, biophysics, structural biology, immunology, neuroscienc...</p>
       <p class="best-for">Best for: Biology PhDs, biophysicists, neuroscientists, immunologists, research scientists</p>
-      <a class="apply-btn" href="https://t.mercor.com/aoSMM" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/aoSMM" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="retail investment research specialist" data-added="2026-06-22T00:00:00+00:00" data-search="retail investment research specialist self-directed investors, equity analysts, portfolio enthusiasts, active traders apply your investing expertise to train ai systems for individual investors. evaluate equities, form investment views, and assess ai-generated financial intelligence. flexible remo...">
       <div class="job-header">
-        <span class="job-emoji">🔬</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Retail Investment Research Specialist</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your investing expertise to train AI systems for individual investors. Evaluate equities, form investment views, and assess AI-generated financial intelligence. Flexible remo…</p>
+      <p class="job-desc">Apply your investing expertise to train AI systems for individual investors. Evaluate equities, form investment views, and assess AI-generated financial intelligence. Flexible remo...</p>
       <p class="best-for">Best for: Self-directed investors, equity analysts, portfolio enthusiasts, active traders</p>
-      <a class="apply-btn" href="https://t.mercor.com/E4Od4" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/E4Od4" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="consulting" data-rate="100" data-title="digital workspace (euc) pricing & commercial strategy expert" data-added="2026-06-22T00:00:00+00:00" data-search="digital workspace (euc) pricing & commercial strategy expert enterprise software executives, commercial strategy leaders, licensing specialists apply your enterprise software pricing and commercial strategy expertise to train ai systems. provide insights into licensing frameworks, go-to-market strategies, and enterprise ag...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">🤝</span>
         <div class="job-meta">
           <h3 class="job-title">Digital Workspace (EUC) Pricing & Commercial Strategy Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🤝 Consulting</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your enterprise software pricing and commercial strategy expertise to train AI systems. Provide insights into licensing frameworks, go-to-market strategies, and enterprise ag…</p>
+      <p class="job-desc">Apply your enterprise software pricing and commercial strategy expertise to train AI systems. Provide insights into licensing frameworks, go-to-market strategies, and enterprise ag...</p>
       <p class="best-for">Best for: Enterprise software executives, commercial strategy leaders, licensing specialists</p>
-      <a class="apply-btn" href="https://t.mercor.com/yRYMn" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/yRYMn" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="fixed income trading professional" data-added="2026-06-22T00:00:00+00:00" data-search="fixed income trading professional bond traders, fixed income analysts, portfolio managers, rates specialists apply your fixed income expertise to train ai systems for bond markets. help ai understand pricing dynamics, trading strategies, and fixed income market mechanics. flexible remote ...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Fixed Income Trading Professional</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your fixed income expertise to train AI systems for bond markets. Help AI understand pricing dynamics, trading strategies, and fixed income market mechanics. Flexible remote …</p>
+      <p class="job-desc">Apply your fixed income expertise to train AI systems for bond markets. Help AI understand pricing dynamics, trading strategies, and fixed income market mechanics. Flexible remote ...</p>
       <p class="best-for">Best for: Bond traders, fixed income analysts, portfolio managers, rates specialists</p>
-      <a class="apply-btn" href="https://t.mercor.com/NOs69" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/NOs69" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="consulting" data-rate="100" data-title="consultant — business report quality & strategic insights expert" data-added="2026-06-22T00:00:00+00:00" data-search="consultant — business report quality & strategic insights expert management consultants, strategy professionals, mckinsey/bcg/bain alumni apply your management consulting expertise to improve how ai generates executive-level business reports. create high-quality strategic reports and evaluate ai-generated reasoning a...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">🤝</span>
         <div class="job-meta">
           <h3 class="job-title">Consultant — Business Report Quality & Strategic Insights Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🤝 Consulting</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your management consulting expertise to improve how AI generates executive-level business reports. Create high-quality strategic reports and evaluate AI-generated reasoning a…</p>
+      <p class="job-desc">Apply your management consulting expertise to improve how AI generates executive-level business reports. Create high-quality strategic reports and evaluate AI-generated reasoning a...</p>
       <p class="best-for">Best for: Management consultants, strategy professionals, McKinsey/BCG/Bain alumni</p>
-      <a class="apply-btn" href="https://t.mercor.com/LUBD5" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/LUBD5" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="rtl design engineers" data-added="2026-06-22T00:00:00+00:00" data-search="rtl design engineers rtl engineers, chip designers, verification engineers, asic professionals apply your chip design and verification expertise to train ai systems for silicon design workflows. two tracks: rtl design engineer and design verification engineer. remote, usa an...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">RTL Design Engineers</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your chip design and verification expertise to train AI systems for silicon design workflows. Two tracks: RTL Design Engineer and Design Verification Engineer. Remote, USA an…</p>
+      <p class="job-desc">Apply your chip design and verification expertise to train AI systems for silicon design workflows. Two tracks: RTL Design Engineer and Design Verification Engineer. Remote, USA an...</p>
       <p class="best-for">Best for: RTL engineers, chip designers, verification engineers, ASIC professionals</p>
-      <a class="apply-btn" href="https://t.mercor.com/xRUtm" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/xRUtm" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="legal experts: us finance (pe / m&a / cross-border)" data-added="2026-06-22T00:00:00+00:00" data-search="legal experts: us finance (pe / m&a / cross-border) pe attorneys, m&a lawyers, corporate finance counsel, kirkland/latham/white & case alumni apply your private equity and m&a legal expertise to train frontier ai models. create and review realistic legal scenarios covering pe transactions, cross-border m&a, leveraged buy...">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Legal Experts: US Finance (PE / M&A / Cross-Border)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your private equity and M&A legal expertise to train frontier AI models. Create and review realistic legal scenarios covering PE transactions, cross-border M&A, leveraged buy…</p>
+      <p class="job-desc">Apply your private equity and M&A legal expertise to train frontier AI models. Create and review realistic legal scenarios covering PE transactions, cross-border M&A, leveraged buy...</p>
       <p class="best-for">Best for: PE attorneys, M&A lawyers, corporate finance counsel, Kirkland/Latham/White & Case alumni</p>
-      <a class="apply-btn" href="https://t.mercor.com/b4LRy" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/b4LRy" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="market research methodologist — report quality & insights expert" data-added="2026-06-22T00:00:00+00:00" data-search="market research methodologist — report quality & insights expert market researchers, insights professionals, strategy consultants, business analysts apply your market research expertise to improve how ai generates business reports. define research excellence, create high-quality reports on complex business questions, and evalua...">
       <div class="job-header">
         <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Market Research Methodologist — Report Quality & Insights Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your market research expertise to improve how AI generates business reports. Define research excellence, create high-quality reports on complex business questions, and evalua…</p>
+      <p class="job-desc">Apply your market research expertise to improve how AI generates business reports. Define research excellence, create high-quality reports on complex business questions, and evalua...</p>
       <p class="best-for">Best for: Market researchers, insights professionals, strategy consultants, business analysts</p>
-      <a class="apply-btn" href="https://t.mercor.com/m5sj4" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/m5sj4" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="legal expert — specialist (real estate, tax, bankruptcy, estates)" data-added="2026-06-22T00:00:00+00:00" data-search="legal expert — specialist (real estate, tax, bankruptcy, estates) real estate attorneys, tax lawyers, bankruptcy counsel, trusts & estates specialists apply your specialist legal expertise to train frontier ai models on high-quality legal reasoning. design realistic scenarios across real estate, tax, bankruptcy/restructuring, and...">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Legal Expert — Specialist (Real Estate, Tax, Bankruptcy, Estates)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your specialist legal expertise to train frontier AI models on high-quality legal reasoning. Design realistic scenarios across real estate, tax, bankruptcy/restructuring, and…</p>
+      <p class="job-desc">Apply your specialist legal expertise to train frontier AI models on high-quality legal reasoning. Design realistic scenarios across real estate, tax, bankruptcy/restructuring, and...</p>
       <p class="best-for">Best for: Real estate attorneys, tax lawyers, bankruptcy counsel, trusts & estates specialists</p>
-      <a class="apply-btn" href="https://t.mercor.com/Arxwi" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/Arxwi" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="legal expert — employment / labor" data-added="2026-06-22T00:00:00+00:00" data-search="legal expert — employment / labor employment attorneys, labor counsel, eeo investigators, hr legal professionals apply your employment and labor law expertise to train frontier ai models. design realistic workplace scenarios and evaluate ai reasoning on employment disputes, workplace investig...">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Legal Expert — Employment / Labor</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your employment and labor law expertise to train frontier AI models. Design realistic workplace scenarios and evaluate AI reasoning on employment disputes, workplace investig…</p>
+      <p class="job-desc">Apply your employment and labor law expertise to train frontier AI models. Design realistic workplace scenarios and evaluate AI reasoning on employment disputes, workplace investig...</p>
       <p class="best-for">Best for: Employment attorneys, labor counsel, EEO investigators, HR legal professionals</p>
-      <a class="apply-btn" href="https://t.mercor.com/H1OVY" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/H1OVY" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="ip expert — patent / trademark" data-added="2026-06-22T00:00:00+00:00" data-search="ip expert — patent / trademark patent attorneys, trademark practitioners, ip litigators, uspto/cipo registered attorneys apply your ip law expertise to train frontier ai models on patent prosecution, trademark practice, and ip analysis. design realistic ip scenarios and evaluate ai reasoning on high-...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">IP Expert — Patent / Trademark</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your IP law expertise to train frontier AI models on patent prosecution, trademark practice, and IP analysis. Design realistic IP scenarios and evaluate AI reasoning on high-…</p>
+      <p class="job-desc">Apply your IP law expertise to train frontier AI models on patent prosecution, trademark practice, and IP analysis. Design realistic IP scenarios and evaluate AI reasoning on high-...</p>
       <p class="best-for">Best for: Patent attorneys, trademark practitioners, IP litigators, USPTO/CIPO registered attorneys</p>
-      <a class="apply-btn" href="https://t.mercor.com/wFbv3" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/wFbv3" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="legal expert — transactional / corporate" data-added="2026-06-22T00:00:00+00:00" data-search="legal expert — transactional / corporate m&a attorneys, corporate lawyers, in-house transactional counsel, securities specialists apply your m&a and corporate law expertise to train frontier ai models. design realistic deal scenarios and evaluate ai reasoning on m&a, contracts, securities, and corporate gover...">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Legal Expert — Transactional / Corporate</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your M&A and corporate law expertise to train frontier AI models. Design realistic deal scenarios and evaluate AI reasoning on M&A, contracts, securities, and corporate gover…</p>
+      <p class="job-desc">Apply your M&A and corporate law expertise to train frontier AI models. Design realistic deal scenarios and evaluate AI reasoning on M&A, contracts, securities, and corporate gover...</p>
       <p class="best-for">Best for: M&A attorneys, corporate lawyers, in-house transactional counsel, securities specialists</p>
-      <a class="apply-btn" href="https://t.mercor.com/Kv0CU" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/Kv0CU" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="portfolio manager (buy-side)" data-added="2026-06-22T00:00:00+00:00" data-search="portfolio manager (buy-side) portfolio managers, hedge fund pms, asset managers, cfa charterholders with 8+ years experience apply your portfolio management expertise to train ai systems for institutional investing. provide input on portfolio construction, risk management, and investment strategy across ...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Portfolio Manager (Buy-Side)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your portfolio management expertise to train AI systems for institutional investing. Provide input on portfolio construction, risk management, and investment strategy across …</p>
+      <p class="job-desc">Apply your portfolio management expertise to train AI systems for institutional investing. Provide input on portfolio construction, risk management, and investment strategy across ...</p>
       <p class="best-for">Best for: Portfolio managers, hedge fund PMs, asset managers, CFA charterholders with 8+ years experience</p>
-      <a class="apply-btn" href="https://t.mercor.com/zReRY" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/zReRY" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="computer vision ml engineer" data-added="2026-06-22T00:00:00+00:00" data-search="computer vision ml engineer computer vision engineers, ml engineers, senior ai researchers lead a 3-4 week feasibility assessment of a computer vision system that identifies and grades physical objects from images. benchmark model performance and translate findings into ...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Computer Vision ML Engineer</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Lead a 3-4 week feasibility assessment of a computer vision system that identifies and grades physical objects from images. Benchmark model performance and translate findings into …</p>
+      <p class="job-desc">Lead a 3-4 week feasibility assessment of a computer vision system that identifies and grades physical objects from images. Benchmark model performance and translate findings into ...</p>
       <p class="best-for">Best for: Computer vision engineers, ML engineers, senior AI researchers</p>
-      <a class="apply-btn" href="https://t.mercor.com/e1qae" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/e1qae" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="senior software engineer expert" data-added="2026-06-22T00:00:00+00:00" data-search="senior software engineer expert senior full-stack engineers, python developers, api specialists build full-stack applications for a high-urgency closed-source project. design and maintain apis, mcp-based systems, and production-grade applications. strong python and full-stack...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Senior Software Engineer Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Build full-stack applications for a high-urgency closed-source project. Design and maintain APIs, MCP-based systems, and production-grade applications. Strong Python and full-stack…</p>
+      <p class="job-desc">Build full-stack applications for a high-urgency closed-source project. Design and maintain APIs, MCP-based systems, and production-grade applications. Strong Python and full-stack...</p>
       <p class="best-for">Best for: Senior full-stack engineers, Python developers, API specialists</p>
-      <a class="apply-btn" href="https://t.mercor.com/yJkkz" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/yJkkz" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="venture capital expert" data-added="2026-06-22T00:00:00+00:00" data-search="venture capital expert vc partners, associates, angel investors, startup founders with investment experience apply your vc expertise to a research project with a leading ai lab. contribute domain knowledge on startup evaluation, deal structuring, fund strategy, and investment decision-mak...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Venture Capital Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your VC expertise to a research project with a leading AI lab. Contribute domain knowledge on startup evaluation, deal structuring, fund strategy, and investment decision-mak…</p>
+      <p class="job-desc">Apply your VC expertise to a research project with a leading AI lab. Contribute domain knowledge on startup evaluation, deal structuring, fund strategy, and investment decision-mak...</p>
       <p class="best-for">Best for: VC partners, associates, angel investors, startup founders with investment experience</p>
-      <a class="apply-btn" href="https://t.mercor.com/V7Aa4" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/V7Aa4" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="private equity expert" data-added="2026-06-22T00:00:00+00:00" data-search="private equity expert pe professionals, investment analysts, portfolio company executives, m&a specialists apply your pe expertise to a research project with a leading ai lab. contribute domain knowledge on deal sourcing, lbo modeling, portfolio management, and value creation strategies...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Private Equity Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your PE expertise to a research project with a leading AI lab. Contribute domain knowledge on deal sourcing, LBO modeling, portfolio management, and value creation strategies…</p>
+      <p class="job-desc">Apply your PE expertise to a research project with a leading AI lab. Contribute domain knowledge on deal sourcing, LBO modeling, portfolio management, and value creation strategies...</p>
       <p class="best-for">Best for: PE professionals, investment analysts, portfolio company executives, M&A specialists</p>
-      <a class="apply-btn" href="https://t.mercor.com/9NU0d" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/9NU0d" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="investment banking expert" data-added="2026-06-22T00:00:00+00:00" data-search="investment banking expert investment bankers, m&a advisors, capital markets professionals, corporate finance experts apply your investment banking expertise to a research project with a leading ai lab. contribute domain knowledge on m&a advisory, capital markets, deal structuring, and financial m...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Investment Banking Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your investment banking expertise to a research project with a leading AI lab. Contribute domain knowledge on M&A advisory, capital markets, deal structuring, and financial m…</p>
+      <p class="job-desc">Apply your investment banking expertise to a research project with a leading AI lab. Contribute domain knowledge on M&A advisory, capital markets, deal structuring, and financial m...</p>
       <p class="best-for">Best for: Investment bankers, M&A advisors, capital markets professionals, corporate finance experts</p>
-      <a class="apply-btn" href="https://t.mercor.com/5vpAP" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/5vpAP" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="senior investment analyst (buy-side)" data-added="2026-06-22T00:00:00+00:00" data-search="senior investment analyst (buy-side) equity researchers, hedge fund analysts, asset managers, cfa charterholders apply your buy-side expertise to train ai systems for institutional investment research. develop investment theses, perform financial modeling, and assess ai-generated research out...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Senior Investment Analyst (Buy-Side)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your buy-side expertise to train AI systems for institutional investment research. Develop investment theses, perform financial modeling, and assess AI-generated research out…</p>
+      <p class="job-desc">Apply your buy-side expertise to train AI systems for institutional investment research. Develop investment theses, perform financial modeling, and assess AI-generated research out...</p>
       <p class="best-for">Best for: Equity researchers, hedge fund analysts, asset managers, CFA charterholders</p>
-      <a class="apply-btn" href="https://t.mercor.com/tDcL5" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/tDcL5" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="business" data-rate="100" data-title="product design / ux expert" data-added="2026-06-22T00:00:00+00:00" data-search="product design / ux expert product designers, ux researchers, ui specialists with 3+ years at a tech firm apply your product design expertise to a research project for a top ai company. make decisions on design and taste preferences, create product mockups, and provide ux feedback. pai...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">💼</span>
         <div class="job-meta">
           <h3 class="job-title">Product Design / UX Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💼 Business</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Apply your product design expertise to a research project for a top AI company. Make decisions on design and taste preferences, create product mockups, and provide UX feedback. Pai…</p>
+      <p class="job-desc">Apply your product design expertise to a research project for a top AI company. Make decisions on design and taste preferences, create product mockups, and provide UX feedback. Pai...</p>
       <p class="best-for">Best for: Product designers, UX researchers, UI specialists with 3+ years at a tech firm</p>
-      <a class="apply-btn" href="https://t.mercor.com/nYi2o" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/nYi2o" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="business" data-rate="100" data-title="process improvement / sops evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="process improvement / sops evaluator operations managers, process improvement specialists, six sigma/lean professionals review and assess ai-generated work products for accuracy and domain quality. apply deep process improvement and operations expertise. remote, hourly engagement.">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">💼</span>
         <div class="job-meta">
           <h3 class="job-title">Process Improvement / SOPs Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💼 Business</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated work products for accuracy and domain quality. Apply deep process improvement and operations expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: Operations managers, process improvement specialists, Six Sigma/Lean professionals</p>
-      <a class="apply-btn" href="https://t.mercor.com/EUqt3" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/EUqt3" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="business" data-rate="100" data-title="public-sector procurement / rfi response evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="public-sector procurement / rfi response evaluator government procurement officers, rfi/rfp specialists, public sector consultants review and assess ai-generated procurement documents and rfi responses for accuracy and domain quality. apply deep public-sector procurement expertise. remote, hourly engagement.">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">💼</span>
         <div class="job-meta">
           <h3 class="job-title">Public-Sector Procurement / RFI Response Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💼 Business</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated procurement documents and RFI responses for accuracy and domain quality. Apply deep public-sector procurement expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: Government procurement officers, RFI/RFP specialists, public sector consultants</p>
-      <a class="apply-btn" href="https://t.mercor.com/9FLJW" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/9FLJW" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="accounting" data-rate="100" data-title="finance operations / audit support evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="finance operations / audit support evaluator finance operations professionals, internal auditors, cpas, compliance specialists review and assess ai-generated finance and audit work products for accuracy and domain quality. apply deep finance operations and audit expertise. remote, hourly engagement.">
       <div class="job-header">
-        <span class="job-emoji">📊</span>
+        <span class="job-emoji">🧾</span>
         <div class="job-meta">
           <h3 class="job-title">Finance Operations / Audit Support Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🧾 Accounting</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated finance and audit work products for accuracy and domain quality. Apply deep finance operations and audit expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: Finance operations professionals, internal auditors, CPAs, compliance specialists</p>
-      <a class="apply-btn" href="https://t.mercor.com/kT9GT" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/kT9GT" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="business" data-rate="100" data-title="document / deck production qa evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="document / deck production qa evaluator senior consultants, chief of staff, executive assistants, presentation specialists review and assess ai-generated documents, spreadsheets, and slide decks for accuracy and quality. apply deep document production and presentation expertise. remote, hourly engageme...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">💼</span>
         <div class="job-meta">
           <h3 class="job-title">Document / Deck Production QA Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💼 Business</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Review and assess AI-generated documents, spreadsheets, and slide decks for accuracy and quality. Apply deep document production and presentation expertise. Remote, hourly engageme…</p>
+      <p class="job-desc">Review and assess AI-generated documents, spreadsheets, and slide decks for accuracy and quality. Apply deep document production and presentation expertise. Remote, hourly engageme...</p>
       <p class="best-for">Best for: Senior consultants, chief of staff, executive assistants, presentation specialists</p>
-      <a class="apply-btn" href="https://t.mercor.com/ElZZb" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/ElZZb" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="bi dashboards / performance reporting evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="bi dashboards / performance reporting evaluator bi analysts, data analysts, performance reporting specialists, analytics managers review and assess ai-generated bi dashboards and performance reports for accuracy and domain quality. apply deep analytics and reporting expertise. remote, hourly engagement.">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">BI Dashboards / Performance Reporting Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated BI dashboards and performance reports for accuracy and domain quality. Apply deep analytics and reporting expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: BI analysts, data analysts, performance reporting specialists, analytics managers</p>
-      <a class="apply-btn" href="https://t.mercor.com/segdz" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/segdz" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="investment analysis / valuation / credit evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="investment analysis / valuation / credit evaluator investment analysts, valuation specialists, credit analysts, cfa charterholders review and assess ai-generated investment analysis, valuation models, and credit assessments for accuracy and domain quality. apply deep finance expertise. remote, hourly engagemen...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Investment Analysis / Valuation / Credit Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Review and assess AI-generated investment analysis, valuation models, and credit assessments for accuracy and domain quality. Apply deep finance expertise. Remote, hourly engagemen…</p>
+      <p class="job-desc">Review and assess AI-generated investment analysis, valuation models, and credit assessments for accuracy and domain quality. Apply deep finance expertise. Remote, hourly engagemen...</p>
       <p class="best-for">Best for: Investment analysts, valuation specialists, credit analysts, CFA charterholders</p>
-      <a class="apply-btn" href="https://t.mercor.com/SFEmF" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/SFEmF" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="ip / trademark / copyright law evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="ip / trademark / copyright law evaluator ip attorneys, trademark specialists, copyright lawyers, patent professionals review and assess ai-generated ip and trademark legal work products for accuracy and domain quality. apply deep ip law expertise. remote, hourly engagement.">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">IP / Trademark / Copyright Law Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated IP and trademark legal work products for accuracy and domain quality. Apply deep IP law expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: IP attorneys, trademark specialists, copyright lawyers, patent professionals</p>
-      <a class="apply-btn" href="https://t.mercor.com/mcqgw" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/mcqgw" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="business" data-rate="100" data-title="data quality / crm operations evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="data quality / crm operations evaluator crm managers, data quality specialists, salesforce/hubspot experts, revops professionals review and assess ai-generated crm and data quality work products for accuracy and domain quality. apply deep crm and data operations expertise. remote, hourly engagement.">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">💼</span>
         <div class="job-meta">
           <h3 class="job-title">Data Quality / CRM Operations Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💼 Business</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated CRM and data quality work products for accuracy and domain quality. Apply deep CRM and data operations expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: CRM managers, data quality specialists, Salesforce/HubSpot experts, RevOps professionals</p>
-      <a class="apply-btn" href="https://t.mercor.com/0pp2Z" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/0pp2Z" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="cybersecurity / it grc evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="cybersecurity / it grc evaluator cisos, cybersecurity analysts, grc professionals, it risk managers, cisa/cissp holders review and assess ai-generated cybersecurity and it governance work products for accuracy and domain quality. apply deep cybersecurity and grc expertise. remote, hourly engagement.">
       <div class="job-header">
-        <span class="job-emoji">🔴</span>
+        <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Cybersecurity / IT GRC Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated cybersecurity and IT governance work products for accuracy and domain quality. Apply deep cybersecurity and GRC expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: CISOs, cybersecurity analysts, GRC professionals, IT risk managers, CISA/CISSP holders</p>
-      <a class="apply-btn" href="https://t.mercor.com/qlKGi" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/qlKGi" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="data analysis / quantitative readouts evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="data analysis / quantitative readouts evaluator data scientists, quantitative analysts, statisticians, analytics professionals review and assess ai-generated data analysis and quantitative reports for accuracy and domain quality. apply deep data science and analytics expertise. remote, hourly engagement.">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Data Analysis / Quantitative Readouts Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated data analysis and quantitative reports for accuracy and domain quality. Apply deep data science and analytics expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: Data scientists, quantitative analysts, statisticians, analytics professionals</p>
-      <a class="apply-btn" href="https://t.mercor.com/kq7b8" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/kq7b8" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="fp&a / corporate finance evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="fp&a / corporate finance evaluator fp&a managers, corporate finance professionals, financial controllers, cfos review and assess ai-generated fp&a and corporate finance work products for accuracy and domain quality. apply deep financial planning and analysis expertise. remote, hourly engage...">
       <div class="job-header">
         <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">FP&A / Corporate Finance Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
-      <p class="job-desc">Review and assess AI-generated FP&A and corporate finance work products for accuracy and domain quality. Apply deep financial planning and analysis expertise. Remote, hourly engage…</p>
+      <p class="job-desc">Review and assess AI-generated FP&A and corporate finance work products for accuracy and domain quality. Apply deep financial planning and analysis expertise. Remote, hourly engage...</p>
       <p class="best-for">Best for: FP&A managers, corporate finance professionals, financial controllers, CFOs</p>
-      <a class="apply-btn" href="https://t.mercor.com/5Dp9n" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/5Dp9n" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="accounting" data-rate="100" data-title="general finance / accounting evaluator" data-added="2026-06-22T00:00:00+00:00" data-search="general finance / accounting evaluator accountants, finance managers, cpas, bookkeepers, financial analysts review and assess ai-generated finance and accounting work products for accuracy and domain quality. apply deep finance and accounting expertise. remote, hourly engagement.">
       <div class="job-header">
-        <span class="job-emoji">📊</span>
+        <span class="job-emoji">🧾</span>
         <div class="job-meta">
           <h3 class="job-title">General Finance / Accounting Evaluator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🧾 Accounting</span>
         </div>
         <span class="job-rate">$100/hr</span>
       </div>
       <p class="job-desc">Review and assess AI-generated finance and accounting work products for accuracy and domain quality. Apply deep finance and accounting expertise. Remote, hourly engagement.</p>
       <p class="best-for">Best for: Accountants, finance managers, CPAs, bookkeepers, financial analysts</p>
-      <a class="apply-btn" href="https://t.mercor.com/pLIul" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://t.mercor.com/pLIul" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="financial advisor (cfa or cfp)" data-added="2026-06-23T00:00:00+00:00" data-search="financial advisor (cfa or cfp) cfps, cfas, financial planners, wealth managers, retirement specialists apply your financial planning expertise to train ai systems for personal finance and wealth management. review ai-generated financial advice, assess budgeting and retirement planni...">
       <div class="job-header">
         <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Financial Advisor (CFA or CFP)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your financial planning expertise to train AI systems for personal finance and wealth management. Review AI-generated financial advice, assess budgeting and retirement planni…</p>
+      <p class="job-desc">Apply your financial planning expertise to train AI systems for personal finance and wealth management. Review AI-generated financial advice, assess budgeting and retirement planni...</p>
       <p class="best-for">Best for: CFPs, CFAs, financial planners, wealth managers, retirement specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/4cf0190d-f414-48cb-affd-95db6719fefc?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/4cf0190d-f414-48cb-affd-95db6719fefc?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="attorney — energy & pjm interconnection" data-added="2026-06-23T00:00:00+00:00" data-search="attorney — energy & pjm interconnection energy attorneys, ferc regulatory lawyers, pjm compliance specialists apply your energy law expertise to train ai systems on ferc regulations, pjm interconnection compliance, energy permitting, and site control review. no prior ai experience required...">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Attorney — Energy & PJM Interconnection</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your energy law expertise to train AI systems on FERC regulations, PJM interconnection compliance, energy permitting, and site control review. No prior AI experience required…</p>
+      <p class="job-desc">Apply your energy law expertise to train AI systems on FERC regulations, PJM interconnection compliance, energy permitting, and site control review. No prior AI experience required...</p>
       <p class="best-for">Best for: Energy attorneys, FERC regulatory lawyers, PJM compliance specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/86f82241-e3fc-4b48-8603-8921bf57f49d?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/86f82241-e3fc-4b48-8603-8921bf57f49d?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="transactional attorney" data-added="2026-06-23T00:00:00+00:00" data-search="transactional attorney in-house counsel, m&a attorneys, technology transactions lawyers, contract specialists apply your in-house counsel and transactional expertise to train ai systems on contract drafting, deal negotiation, and technology transactions. no prior ai experience required.">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Transactional Attorney</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
       <p class="job-desc">Apply your in-house counsel and transactional expertise to train AI systems on contract drafting, deal negotiation, and technology transactions. No prior AI experience required.</p>
       <p class="best-for">Best for: In-house counsel, M&A attorneys, technology transactions lawyers, contract specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/cb1e3dc4-e94c-4802-bb1a-068869554633?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/cb1e3dc4-e94c-4802-bb1a-068869554633?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="privacy annotation specialist" data-added="2026-06-23T00:00:00+00:00" data-search="privacy annotation specialist privacy attorneys, compliance specialists, ediscovery professionals, data protection officers apply your data privacy and legal expertise to annotate and review ai-generated content for compliance, pii identification, and ediscovery. no prior ai experience required.">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Privacy Annotation Specialist</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
       <p class="job-desc">Apply your data privacy and legal expertise to annotate and review AI-generated content for compliance, PII identification, and eDiscovery. No prior AI experience required.</p>
       <p class="best-for">Best for: Privacy attorneys, compliance specialists, eDiscovery professionals, data protection officers</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/99c4ab3f-ef1f-4a7d-90f0-bc3e1b243968?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/99c4ab3f-ef1f-4a7d-90f0-bc3e1b243968?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="document reviewer" data-added="2026-06-23T00:00:00+00:00" data-search="document reviewer legal professionals, compliance reviewers, paralegals, document review specialists review and validate ai-generated outputs for accuracy, consistency, and pii compliance. apply your legal or compliance background to identify issues and maintain quality standards....">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Document Reviewer</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Review and validate AI-generated outputs for accuracy, consistency, and PII compliance. Apply your legal or compliance background to identify issues and maintain quality standards.…</p>
+      <p class="job-desc">Review and validate AI-generated outputs for accuracy, consistency, and PII compliance. Apply your legal or compliance background to identify issues and maintain quality standards....</p>
       <p class="best-for">Best for: Legal professionals, compliance reviewers, paralegals, document review specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/090e6761-3c60-4a37-a816-883caccb2f90?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/090e6761-3c60-4a37-a816-883caccb2f90?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="building code compliance expert" data-added="2026-06-23T00:00:00+00:00" data-search="building code compliance expert building code officials, plans examiners, construction inspectors, icc certified professionals apply your building code knowledge and plan review expertise to train ai systems on construction compliance. review blueprints and evaluate ai outputs against building code standar...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Building Code Compliance Expert</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your building code knowledge and plan review expertise to train AI systems on construction compliance. Review blueprints and evaluate AI outputs against building code standar…</p>
+      <p class="job-desc">Apply your building code knowledge and plan review expertise to train AI systems on construction compliance. Review blueprints and evaluate AI outputs against building code standar...</p>
       <p class="best-for">Best for: Building code officials, plans examiners, construction inspectors, ICC certified professionals</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/1aadbd0b-0390-4ca6-9d48-2f9371834750?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/1aadbd0b-0390-4ca6-9d48-2f9371834750?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="physics research expert (solver)" data-added="2026-06-23T00:00:00+00:00" data-search="physics research expert (solver) physics phds, postdocs, research scientists, scientific computing specialists apply your deep physics expertise to solve frontier research problems and train ai systems for scientific reasoning. contribute mathematical problem solving and scientific computin...">
       <div class="job-header">
         <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Physics Research Expert (Solver)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your deep physics expertise to solve frontier research problems and train AI systems for scientific reasoning. Contribute mathematical problem solving and scientific computin…</p>
+      <p class="job-desc">Apply your deep physics expertise to solve frontier research problems and train AI systems for scientific reasoning. Contribute mathematical problem solving and scientific computin...</p>
       <p class="best-for">Best for: Physics PhDs, postdocs, research scientists, scientific computing specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/7c15651a-086a-43c0-98f0-6783d1ec71dc?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/7c15651a-086a-43c0-98f0-6783d1ec71dc?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="senior physics adjudicator" data-added="2026-06-23T00:00:00+00:00" data-search="senior physics adjudicator senior physics professors, principal research scientists, physics department heads, recognized field authorities apply your authority in physics to adjudicate ai-generated scientific content. provide high-level scientific judgment and cross-disciplinary perspective to evaluate complex physics...">
       <div class="job-header">
-        <span class="job-emoji">🤖</span>
+        <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Senior Physics Adjudicator</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your authority in physics to adjudicate AI-generated scientific content. Provide high-level scientific judgment and cross-disciplinary perspective to evaluate complex physics…</p>
+      <p class="job-desc">Apply your authority in physics to adjudicate AI-generated scientific content. Provide high-level scientific judgment and cross-disciplinary perspective to evaluate complex physics...</p>
       <p class="best-for">Best for: Senior physics professors, principal research scientists, physics department heads, recognized field authorities</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/9c5641a2-60eb-4cda-9bcb-747b807dc214?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/9c5641a2-60eb-4cda-9bcb-747b807dc214?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="physics research auditor" data-added="2026-06-23T00:00:00+00:00" data-search="physics research auditor physics researchers, peer reviewers, journal editors, senior academic scientists apply your physics expertise to audit and review ai-generated research for technical accuracy and errors. bring peer review experience and broad theoretical understanding to valida...">
       <div class="job-header">
         <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Physics Research Auditor</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your physics expertise to audit and review AI-generated research for technical accuracy and errors. Bring peer review experience and broad theoretical understanding to valida…</p>
+      <p class="job-desc">Apply your physics expertise to audit and review AI-generated research for technical accuracy and errors. Bring peer review experience and broad theoretical understanding to valida...</p>
       <p class="best-for">Best for: Physics researchers, peer reviewers, journal editors, senior academic scientists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/1407cefb-7515-4662-8c30-97ca8952a506?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/1407cefb-7515-4662-8c30-97ca8952a506?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="medical" data-rate="100" data-title="medical specialist — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="medical specialist — ai training physicians, medical specialists, clinicians, pharmacologists, medical geneticists apply your clinical expertise to train ai systems on medical reasoning, diagnosis, and treatment planning. review ai-generated clinical content across specialties including immunol...">
       <div class="job-header">
         <span class="job-emoji">⚕️</span>
         <div class="job-meta">
           <h3 class="job-title">Medical Specialist — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚕️ Medical</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your clinical expertise to train AI systems on medical reasoning, diagnosis, and treatment planning. Review AI-generated clinical content across specialties including immunol…</p>
+      <p class="job-desc">Apply your clinical expertise to train AI systems on medical reasoning, diagnosis, and treatment planning. Review AI-generated clinical content across specialties including immunol...</p>
       <p class="best-for">Best for: Physicians, medical specialists, clinicians, pharmacologists, medical geneticists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/cc9b110f-2107-4df0-8b83-aaec81064010?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/cc9b110f-2107-4df0-8b83-aaec81064010?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="business" data-rate="100" data-title="project management specialist — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="project management specialist — ai training pmps, program managers, agile coaches, project delivery specialists apply your project management expertise to train ai systems on planning, team coordination, and delivery. review ai-generated project frameworks and evaluate management recommendat...">
       <div class="job-header">
-        <span class="job-emoji">🧠</span>
+        <span class="job-emoji">💼</span>
         <div class="job-meta">
           <h3 class="job-title">Project Management Specialist — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💼 Business</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your project management expertise to train AI systems on planning, team coordination, and delivery. Review AI-generated project frameworks and evaluate management recommendat…</p>
+      <p class="job-desc">Apply your project management expertise to train AI systems on planning, team coordination, and delivery. Review AI-generated project frameworks and evaluate management recommendat...</p>
       <p class="best-for">Best for: PMPs, program managers, agile coaches, project delivery specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/74c7786a-2cb8-4a42-87c3-1f91374ec750?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/74c7786a-2cb8-4a42-87c3-1f91374ec750?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="consulting" data-rate="100" data-title="management consultant — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="management consultant — ai training management consultants, strategy advisors, mckinsey/bcg/bain/deloitte alumni, business transformation specialists apply your management consulting expertise to train ai systems on strategic analysis, business process improvement, and organizational transformation. evaluate ai reasoning using p...">
       <div class="job-header">
-        <span class="job-emoji">🧠</span>
+        <span class="job-emoji">🤝</span>
         <div class="job-meta">
           <h3 class="job-title">Management Consultant — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🤝 Consulting</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your management consulting expertise to train AI systems on strategic analysis, business process improvement, and organizational transformation. Evaluate AI reasoning using p…</p>
+      <p class="job-desc">Apply your management consulting expertise to train AI systems on strategic analysis, business process improvement, and organizational transformation. Evaluate AI reasoning using p...</p>
       <p class="best-for">Best for: Management consultants, strategy advisors, McKinsey/BCG/Bain/Deloitte alumni, business transformation specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/7df34219-525c-46e7-a18d-eccb2f4cdf24?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/7df34219-525c-46e7-a18d-eccb2f4cdf24?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="finance" data-rate="100" data-title="financial investment analyst — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="financial investment analyst — ai training investment analysts, equity researchers, financial modelers, cfa charterholders apply your financial modeling and investment analysis expertise to train ai systems. review dcf models, lbo analyses, and ai-generated valuation outputs. no prior ai experience req...">
       <div class="job-header">
         <span class="job-emoji">📊</span>
         <div class="job-meta">
           <h3 class="job-title">Financial Investment Analyst — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">📊 Finance</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your financial modeling and investment analysis expertise to train AI systems. Review DCF models, LBO analyses, and AI-generated valuation outputs. No prior AI experience req…</p>
+      <p class="job-desc">Apply your financial modeling and investment analysis expertise to train AI systems. Review DCF models, LBO analyses, and AI-generated valuation outputs. No prior AI experience req...</p>
       <p class="best-for">Best for: Investment analysts, equity researchers, financial modelers, CFA charterholders</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/c110220a-74ad-48eb-be8d-863bce8967e0?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/c110220a-74ad-48eb-be8d-863bce8967e0?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="software engineer (python / rust / go / java)" data-added="2026-06-23T00:00:00+00:00" data-search="software engineer (python / rust / go / java) senior software engineers, backend developers, polyglot programmers apply your software engineering expertise to train ai coding models. review and evaluate ai-generated code across python, rust, golang, java, node.js, and mobile platforms. no prio...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Software Engineer (Python / Rust / Go / Java)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your software engineering expertise to train AI coding models. Review and evaluate AI-generated code across Python, Rust, GoLang, Java, Node.js, and mobile platforms. No prio…</p>
+      <p class="job-desc">Apply your software engineering expertise to train AI coding models. Review and evaluate AI-generated code across Python, Rust, GoLang, Java, Node.js, and mobile platforms. No prio...</p>
       <p class="best-for">Best for: Senior software engineers, backend developers, polyglot programmers</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/ff9339f0-420e-474a-a6e1-7348693cdd66?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/ff9339f0-420e-474a-a6e1-7348693cdd66?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="medical" data-rate="100" data-title="pathologist — ai medical training" data-added="2026-06-23T00:00:00+00:00" data-search="pathologist — ai medical training pathologists, anatomical pathologists, clinical pathologists, medical data specialists apply your pathology expertise to annotate medical data and train ai systems on clinical data interpretation. work with digital pathology platforms to improve ai accuracy in pathol...">
       <div class="job-header">
         <span class="job-emoji">⚕️</span>
         <div class="job-meta">
           <h3 class="job-title">Pathologist — AI Medical Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚕️ Medical</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your pathology expertise to annotate medical data and train AI systems on clinical data interpretation. Work with digital pathology platforms to improve AI accuracy in pathol…</p>
+      <p class="job-desc">Apply your pathology expertise to annotate medical data and train AI systems on clinical data interpretation. Work with digital pathology platforms to improve AI accuracy in pathol...</p>
       <p class="best-for">Best for: Pathologists, anatomical pathologists, clinical pathologists, medical data specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/5eb483f3-651d-4f7b-b86a-e73a4f584c39?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/5eb483f3-651d-4f7b-b86a-e73a4f584c39?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="research" data-rate="100" data-title="data scientist — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="data scientist — ai training data scientists, ml practitioners, analytics engineers, python/r specialists apply your data science expertise to train ai systems on analytics, modeling, and data interpretation. review ai-generated models and outputs using python, r, sql, and cloud platfo...">
       <div class="job-header">
-        <span class="job-emoji">🧠</span>
+        <span class="job-emoji">🔬</span>
         <div class="job-meta">
           <h3 class="job-title">Data Scientist — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🔬 Research</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your data science expertise to train AI systems on analytics, modeling, and data interpretation. Review AI-generated models and outputs using Python, R, SQL, and cloud platfo…</p>
+      <p class="job-desc">Apply your data science expertise to train AI systems on analytics, modeling, and data interpretation. Review AI-generated models and outputs using Python, R, SQL, and cloud platfo...</p>
       <p class="best-for">Best for: Data scientists, ML practitioners, analytics engineers, Python/R specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/84782580-52b0-4bdb-90ab-06cbc301de84?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/84782580-52b0-4bdb-90ab-06cbc301de84?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="cloud architect — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="cloud architect — ai training cloud architects, devops engineers, aws/gcp/azure specialists, kubernetes experts apply your cloud infrastructure expertise to train ai systems on architecture design, kubernetes, and cloud-native solutions. review and evaluate ai-generated infrastructure recomm...">
       <div class="job-header">
-        <span class="job-emoji">🧠</span>
+        <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Cloud Architect — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your cloud infrastructure expertise to train AI systems on architecture design, Kubernetes, and cloud-native solutions. Review and evaluate AI-generated infrastructure recomm…</p>
+      <p class="job-desc">Apply your cloud infrastructure expertise to train AI systems on architecture design, Kubernetes, and cloud-native solutions. Review and evaluate AI-generated infrastructure recomm...</p>
       <p class="best-for">Best for: Cloud architects, DevOps engineers, AWS/GCP/Azure specialists, Kubernetes experts</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/9da62b75-58b5-4a08-9ff7-c01041a59f93?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/9da62b75-58b5-4a08-9ff7-c01041a59f93?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="data engineer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="data engineer — ai training data engineers, etl developers, database architects, sql specialists apply your data engineering expertise to train ai systems on etl pipelines, data warehousing, and database design. review ai-generated data architecture and sql outputs. no prior a...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Data Engineer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your data engineering expertise to train AI systems on ETL pipelines, data warehousing, and database design. Review AI-generated data architecture and SQL outputs. No prior A…</p>
+      <p class="job-desc">Apply your data engineering expertise to train AI systems on ETL pipelines, data warehousing, and database design. Review AI-generated data architecture and SQL outputs. No prior A...</p>
       <p class="best-for">Best for: Data engineers, ETL developers, database architects, SQL specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/e756352a-0657-45db-82b7-17ef7fea4d73?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/e756352a-0657-45db-82b7-17ef7fea4d73?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="infrastructure engineer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="infrastructure engineer — ai training infrastructure engineers, vmware specialists, network administrators, virtualization experts apply your vmware, network administration, and virtualization expertise to train ai systems on infrastructure design and management. no prior ai experience required.">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Infrastructure Engineer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
       <p class="job-desc">Apply your VMware, network administration, and virtualization expertise to train AI systems on infrastructure design and management. No prior AI experience required.</p>
       <p class="best-for">Best for: Infrastructure engineers, VMware specialists, network administrators, virtualization experts</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/2641bfdd-3831-4886-9c59-9ee545c602af?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/2641bfdd-3831-4886-9c59-9ee545c602af?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="php back end developer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="php back end developer — ai training php developers, laravel specialists, backend engineers, node.js developers apply your php and backend development expertise to train ai coding models. review ai-generated php, node.js, and laravel code for correctness and best practices. no prior ai exper...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">PHP Back End Developer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your PHP and backend development expertise to train AI coding models. Review AI-generated PHP, Node.js, and Laravel code for correctness and best practices. No prior AI exper…</p>
+      <p class="job-desc">Apply your PHP and backend development expertise to train AI coding models. Review AI-generated PHP, Node.js, and Laravel code for correctness and best practices. No prior AI exper...</p>
       <p class="best-for">Best for: PHP developers, Laravel specialists, backend engineers, Node.js developers</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/b3b87a60-5fa0-47e3-9e58-c41a9879b189?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/b3b87a60-5fa0-47e3-9e58-c41a9879b189?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="senior devops engineer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="senior devops engineer — ai training senior devops engineers, sres, platform engineers, kubernetes specialists apply your devops expertise to train ai systems on ci/cd pipelines, kubernetes orchestration, and cloud infrastructure. review ai-generated devops solutions across aws and gcp. no ...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Senior DevOps Engineer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your DevOps expertise to train AI systems on CI/CD pipelines, Kubernetes orchestration, and cloud infrastructure. Review AI-generated DevOps solutions across AWS and GCP. No …</p>
+      <p class="job-desc">Apply your DevOps expertise to train AI systems on CI/CD pipelines, Kubernetes orchestration, and cloud infrastructure. Review AI-generated DevOps solutions across AWS and GCP. No ...</p>
       <p class="best-for">Best for: Senior DevOps engineers, SREs, platform engineers, Kubernetes specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/b21bf3c9-ef3f-492c-a719-2714cc7313a2?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/b21bf3c9-ef3f-492c-a719-2714cc7313a2?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="energy compliance attorney" data-added="2026-06-23T00:00:00+00:00" data-search="energy compliance attorney energy compliance attorneys, ferc regulatory specialists, utility lawyers apply your energy law and ferc compliance expertise to train ai systems. review ai-generated regulatory analysis covering pjm interconnection, energy permitting, and site control. ...">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Energy Compliance Attorney</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your energy law and FERC compliance expertise to train AI systems. Review AI-generated regulatory analysis covering PJM interconnection, energy permitting, and site control. …</p>
+      <p class="job-desc">Apply your energy law and FERC compliance expertise to train AI systems. Review AI-generated regulatory analysis covering PJM interconnection, energy permitting, and site control. ...</p>
       <p class="best-for">Best for: Energy compliance attorneys, FERC regulatory specialists, utility lawyers</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/da472a74-0ccc-4006-b84c-c4ad6b3b823c?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/da472a74-0ccc-4006-b84c-c4ad6b3b823c?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="legal" data-rate="100" data-title="energy regulatory attorney" data-added="2026-06-23T00:00:00+00:00" data-search="energy regulatory attorney energy regulatory attorneys, utility counsel, ferc practitioners, interconnection specialists apply your energy regulatory expertise to train ai systems on ferc regulations, pjm interconnection queue filings, and energy permitting processes. no prior ai experience required.">
       <div class="job-header">
         <span class="job-emoji">⚖️</span>
         <div class="job-meta">
           <h3 class="job-title">Energy Regulatory Attorney</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">⚖️ Legal</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
       <p class="job-desc">Apply your energy regulatory expertise to train AI systems on FERC regulations, PJM interconnection queue filings, and energy permitting processes. No prior AI experience required.</p>
       <p class="best-for">Best for: Energy regulatory attorneys, utility counsel, FERC practitioners, interconnection specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/a3769b75-c39f-4227-a03d-1e4e6f1ab035?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/a3769b75-c39f-4227-a03d-1e4e6f1ab035?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="senior full stack developer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="senior full stack developer — ai training senior full stack developers, react/node specialists, aws architects apply your full stack expertise to train ai coding models. review react.js, node.js, aws, and postgresql code for correctness and architectural best practices. no prior ai experien...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Senior Full Stack Developer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your full stack expertise to train AI coding models. Review React.js, Node.js, AWS, and PostgreSQL code for correctness and architectural best practices. No prior AI experien…</p>
+      <p class="job-desc">Apply your full stack expertise to train AI coding models. Review React.js, Node.js, AWS, and PostgreSQL code for correctness and architectural best practices. No prior AI experien...</p>
       <p class="best-for">Best for: Senior full stack developers, React/Node specialists, AWS architects</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/b933b3a2-2129-46c9-9294-c1b8160cc57c?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/b933b3a2-2129-46c9-9294-c1b8160cc57c?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="golang developer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="golang developer — ai training go developers, backend engineers, systems programmers with golang experience apply your golang expertise to train ai coding models. review and evaluate ai-generated go code for correctness, performance, and idiomatic style. no prior ai experience required.">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Golang Developer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
       <p class="job-desc">Apply your GoLang expertise to train AI coding models. Review and evaluate AI-generated Go code for correctness, performance, and idiomatic style. No prior AI experience required.</p>
       <p class="best-for">Best for: Go developers, backend engineers, systems programmers with GoLang experience</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/c84b7c39-267a-485e-92b8-c8942e9f3a90?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/c84b7c39-267a-485e-92b8-c8942e9f3a90?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="rlhf" data-rate="100" data-title="machine learning engineer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="machine learning engineer — ai training ml engineers, ai researchers, tensorflow/pytorch specialists, data scientists apply your ml expertise to train ai systems on model development, data preprocessing, and evaluation. review ai-generated ml pipelines using tensorflow and scikit-learn. no prior a...">
       <div class="job-header">
-        <span class="job-emoji">💻</span>
+        <span class="job-emoji">🧠</span>
         <div class="job-meta">
           <h3 class="job-title">Machine Learning Engineer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🧠 RLHF</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your ML expertise to train AI systems on model development, data preprocessing, and evaluation. Review AI-generated ML pipelines using TensorFlow and Scikit-Learn. No prior A…</p>
+      <p class="job-desc">Apply your ML expertise to train AI systems on model development, data preprocessing, and evaluation. Review AI-generated ML pipelines using TensorFlow and Scikit-Learn. No prior A...</p>
       <p class="best-for">Best for: ML engineers, AI researchers, TensorFlow/PyTorch specialists, data scientists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/968ccd53-33bc-494e-b845-8e3b9c631a2a?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/968ccd53-33bc-494e-b845-8e3b9c631a2a?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="mobile application developer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="mobile application developer — ai training ios developers, android developers, react native specialists, flutter engineers apply your mobile development expertise to train ai coding models. review ai-generated ios and android code across swift, kotlin, react native, and flutter. no prior ai experience ...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Mobile Application Developer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your mobile development expertise to train AI coding models. Review AI-generated iOS and Android code across Swift, Kotlin, React Native, and Flutter. No prior AI experience …</p>
+      <p class="job-desc">Apply your mobile development expertise to train AI coding models. Review AI-generated iOS and Android code across Swift, Kotlin, React Native, and Flutter. No prior AI experience ...</p>
       <p class="best-for">Best for: iOS developers, Android developers, React Native specialists, Flutter engineers</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/b17a8f48-dced-435a-8040-da8e0bdcf1b6?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/b17a8f48-dced-435a-8040-da8e0bdcf1b6?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="python developer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="python developer — ai training python developers, django specialists, backend engineers, data engineers apply your python expertise to train ai coding models. review and evaluate ai-generated python, django, and postgresql code for correctness and best practices. no prior ai experien...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Python Developer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your Python expertise to train AI coding models. Review and evaluate AI-generated Python, Django, and PostgreSQL code for correctness and best practices. No prior AI experien…</p>
+      <p class="job-desc">Apply your Python expertise to train AI coding models. Review and evaluate AI-generated Python, Django, and PostgreSQL code for correctness and best practices. No prior AI experien...</p>
       <p class="best-for">Best for: Python developers, Django specialists, backend engineers, data engineers</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/acd22832-6af7-4ade-a7b6-44ee5f98b90a?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/acd22832-6af7-4ade-a7b6-44ee5f98b90a?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="rlhf" data-rate="100" data-title="ai engineer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="ai engineer — ai training ai engineers, ml platform engineers, mlops specialists, ai infrastructure professionals apply your ai engineering expertise to train next-generation ai systems. review ml pipelines, ci/cd workflows, and cloud-native ai deployments on aws and kubernetes. no prior ai tr...">
       <div class="job-header">
-        <span class="job-emoji">💻</span>
+        <span class="job-emoji">🧠</span>
         <div class="job-meta">
           <h3 class="job-title">AI Engineer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">🧠 RLHF</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your AI engineering expertise to train next-generation AI systems. Review ML pipelines, CI/CD workflows, and cloud-native AI deployments on AWS and Kubernetes. No prior AI tr…</p>
+      <p class="job-desc">Apply your AI engineering expertise to train next-generation AI systems. Review ML pipelines, CI/CD workflows, and cloud-native AI deployments on AWS and Kubernetes. No prior AI tr...</p>
       <p class="best-for">Best for: AI engineers, ML platform engineers, MLOps specialists, AI infrastructure professionals</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/3a23884d-a7f4-4e1b-b700-8aa7d4887dec?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/3a23884d-a7f4-4e1b-b700-8aa7d4887dec?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="ios developer — ai training" data-added="2026-06-23T00:00:00+00:00" data-search="ios developer — ai training ios developers, swift specialists, swiftui engineers, apple platform developers apply your ios development expertise to train ai coding models. review ai-generated swift and swiftui code for correctness, ui patterns, and api integration best practices. no prio...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">iOS Developer — AI Training</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your iOS development expertise to train AI coding models. Review AI-generated Swift and SwiftUI code for correctness, UI patterns, and API integration best practices. No prio…</p>
+      <p class="job-desc">Apply your iOS development expertise to train AI coding models. Review AI-generated Swift and SwiftUI code for correctness, UI patterns, and API integration best practices. No prio...</p>
       <p class="best-for">Best for: iOS developers, Swift specialists, SwiftUI engineers, Apple platform developers</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/7edb8f28-4321-45ed-894a-c53219915b64?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/7edb8f28-4321-45ed-894a-c53219915b64?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="senior full-stack engineer (react / python)" data-added="2026-06-23T00:00:00+00:00" data-search="senior full-stack engineer (react / python) senior full-stack engineers, react developers, python backend specialists apply your full-stack expertise to train ai coding models. review ai-generated react, javascript, node, and python code for correctness and architectural quality. no prior ai exper...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Senior Full-Stack Engineer (React / Python)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your full-stack expertise to train AI coding models. Review AI-generated React, JavaScript, Node, and Python code for correctness and architectural quality. No prior AI exper…</p>
+      <p class="job-desc">Apply your full-stack expertise to train AI coding models. Review AI-generated React, JavaScript, Node, and Python code for correctness and architectural quality. No prior AI exper...</p>
       <p class="best-for">Best for: Senior full-stack engineers, React developers, Python backend specialists</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/9e874fc6-9948-43d4-893c-8cd4b0333ec7?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/9e874fc6-9948-43d4-893c-8cd4b0333ec7?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
 
-    <div class="job-card">
+    <div class="job-card" data-category="code" data-rate="100" data-title="senior frontend engineer (react / tailwind)" data-added="2026-06-23T00:00:00+00:00" data-search="senior frontend engineer (react / tailwind) senior frontend engineers, react specialists, tailwind css developers, ui engineers apply your frontend expertise to train ai coding models. review ai-generated react, javascript, and tailwind css code for correctness, ui quality, and modern frontend best practice...">
       <div class="job-header">
         <span class="job-emoji">💻</span>
         <div class="job-meta">
           <h3 class="job-title">Senior Frontend Engineer (React / Tailwind)</h3>
           <span class="job-platform">Vetted AI Platform · Remote · Flexible</span>
+          <span class="cat-badge">💻 Engineering</span>
         </div>
         <span class="job-rate">$100+/hr</span>
       </div>
-      <p class="job-desc">Apply your frontend expertise to train AI coding models. Review AI-generated React, JavaScript, and Tailwind CSS code for correctness, UI quality, and modern frontend best practice…</p>
+      <p class="job-desc">Apply your frontend expertise to train AI coding models. Review AI-generated React, JavaScript, and Tailwind CSS code for correctness, UI quality, and modern frontend best practice...</p>
       <p class="best-for">Best for: Senior frontend engineers, React specialists, Tailwind CSS developers, UI engineers</p>
-      <a class="apply-btn" href="https://jobs.micro1.ai/post/43ace019-9e3f-4b3a-b352-6adc79b220b3?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">
-        Apply →
-      </a>
+      <a class="apply-btn" href="https://jobs.micro1.ai/post/43ace019-9e3f-4b3a-b352-6adc79b220b3?referralCode=5d5e3818-54ba-42b9-ab07-9c78b443f764&utm_source=referral&utm_medium=share" target="_blank" rel="noopener noreferrer">Apply &rarr;</a>
     </div>
   </div>
-
-  <div class="board-footer">
-    All roles listed pay $100/hr or above · Applying is always free · AI Training Studio is an independent curator, not affiliated with any platform listed
-  </div>
-
+  <div class="no-results" id="no-results">No roles match your search. Try a different keyword or category.</div>
+  <div class="board-footer">All roles listed pay $100/hr or above · Applying is always free · AI Training Studio is an independent curator, not affiliated with any platform listed</div>
   <script>
-    function filterJobs(category, btn) {
+    let currentCategory = 'all';
+    function setCategory(category, btn) {
+      currentCategory = category;
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      const cards = document.querySelectorAll('.job-card');
-      cards.forEach(card => {
-        if (category === 'all') {
-          card.style.display = '';
-        } else {
-          const text = card.innerText.toLowerCase();
-          card.style.display = text.includes(category) ? '' : 'none';
-        }
-      });
+      applyFilters();
     }
+    function applyFilters() {
+      const query = document.getElementById('search-box').value.toLowerCase().trim();
+      const sort = document.getElementById('sort-select').value;
+      const grid = document.getElementById('job-grid');
+      const cards = Array.from(document.querySelectorAll('.job-card'));
+      let visible = cards.filter(card => {
+        const catMatch = currentCategory === 'all' || card.dataset.category === currentCategory;
+        const searchMatch = !query || card.dataset.search.includes(query);
+        let rateMatch = true;
+        if (sort === 'rate-150') rateMatch = parseInt(card.dataset.rate) >= 150;
+        if (sort === 'rate-250') rateMatch = parseInt(card.dataset.rate) >= 250;
+        return catMatch && searchMatch && rateMatch;
+      });
+      cards.forEach(c => c.classList.add('hidden'));
+      visible.sort((a, b) => {
+        const rateA = parseInt(a.dataset.rate) || 0;
+        const rateB = parseInt(b.dataset.rate) || 0;
+        if (sort === 'rate-desc' || sort === 'rate-150' || sort === 'rate-250') return rateB - rateA;
+        if (sort === 'rate-asc') return rateA - rateB;
+        if (sort === 'newest') return (b.dataset.added || '').localeCompare(a.dataset.added || '');
+        if (sort === 'oldest') return (a.dataset.added || '').localeCompare(b.dataset.added || '');
+        if (sort === 'alpha-asc') return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+        if (sort === 'alpha-desc') return (b.dataset.title || '').localeCompare(a.dataset.title || '');
+        return rateB - rateA;
+      });
+      visible.forEach(card => { card.classList.remove('hidden'); grid.appendChild(card); });
+      document.getElementById('results-count').textContent = visible.length === cards.length ? '' : visible.length + ' of ' + cards.length + ' roles';
+      document.getElementById('no-results').style.display = visible.length === 0 ? 'block' : 'none';
+    }
+    applyFilters();
   </script>
-
 </body>
 </html>
